@@ -35,9 +35,9 @@ class SlimyCard extends StatefulWidget {
   final Widget bottomCardWidget;
   final bool slimeEnabled;
 
-  SlimyCard(
-    this.topCardWidget,
-    this.bottomCardWidget, {
+  SlimyCard({
+    required this.topCardWidget,
+    required this.bottomCardWidget,
     this.color = const Color(0xff5858FF),
     this.width = 300,
     this.topCardHeight = 300,
