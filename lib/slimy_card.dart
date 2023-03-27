@@ -35,14 +35,14 @@ class SlimyCard extends StatefulWidget {
   final Widget bottomCardWidget;
   final bool slimeEnabled;
 
-  SlimyCard({
+  SlimyCard(
+    this.topCardWidget,
+    this.bottomCardWidget, {
     this.color = const Color(0xff5858FF),
     this.width = 300,
     this.topCardHeight = 300,
     this.bottomCardHeight = 150,
     this.borderRadius = 25,
-    this.topCardWidget,
-    this.bottomCardWidget,
     this.slimeEnabled = true,
   })  : assert(topCardHeight >= 150, 'Height of Top Card must be atleast 150.'),
         assert(bottomCardHeight >= 100,
@@ -56,22 +56,22 @@ class SlimyCard extends StatefulWidget {
 }
 
 class _SlimyCardState extends State<SlimyCard> with TickerProviderStateMixin {
-  bool isSeperated;
+  bool? isSeperated;
 
-  double bottomDimension;
-  double initialBottomDimension;
-  double finalBottomDimension;
-  double gap;
-  double gapInitial;
-  double gapFinal;
-  double x;
-  double y;
-  String activeAnimation;
-  Widget topCardWidget;
-  Widget bottomCardWidget;
+  double? bottomDimension;
+  double? initialBottomDimension;
+  double? finalBottomDimension;
+  double? gap;
+  double? gapInitial;
+  double? gapFinal;
+  double? x;
+  double? y;
+  String? activeAnimation;
+  Widget? topCardWidget;
+  Widget? bottomCardWidget;
 
-  Animation<double> arrowAnimation;
-  AnimationController arrowAnimController;
+  Animation<double>? arrowAnimation;
+  AnimationController? arrowAnimController;
 
   /// `action` is the main function that triggers the process of separation of
   /// the cards and vice-versa.
@@ -79,16 +79,16 @@ class _SlimyCardState extends State<SlimyCard> with TickerProviderStateMixin {
   /// It also updates the status of the SlimyCard.
 
   void action() {
-    if (isSeperated) {
+    if (isSeperated!) {
       isSeperated = false;
       slimyCard.updateStatus(false);
-      arrowAnimController.reverse();
+      arrowAnimController!.reverse();
       gap = gapInitial;
       bottomDimension = initialBottomDimension;
     } else {
       isSeperated = true;
       slimyCard.updateStatus(true);
-      arrowAnimController.forward();
+      arrowAnimController!.forward();
       gap = gapFinal;
       bottomDimension = finalBottomDimension;
     }
@@ -115,7 +115,7 @@ class _SlimyCardState extends State<SlimyCard> with TickerProviderStateMixin {
       duration: Duration(milliseconds: 200),
     );
     arrowAnimation =
-        Tween<double>(begin: 0, end: 0.5).animate(arrowAnimController);
+        Tween<double>(begin: 0, end: 0.5).animate(arrowAnimController!);
   }
 
   @override
@@ -123,12 +123,12 @@ class _SlimyCardState extends State<SlimyCard> with TickerProviderStateMixin {
     super.didChangeDependencies();
     x = (widget.borderRadius < 10) ? 10 : widget.borderRadius;
     y = (widget.borderRadius < 2) ? 2 : widget.borderRadius;
-    gapInitial = ((widget.topCardHeight - x - widget.width / 4) > 0)
-        ? (widget.topCardHeight - x - widget.width / 4)
+    gapInitial = ((widget.topCardHeight - x! - widget.width / 4) > 0)
+        ? (widget.topCardHeight - x! - widget.width / 4)
         : 0;
-    gapFinal = ((widget.topCardHeight + x - widget.width / 4 + 50) > 0)
-        ? (widget.topCardHeight + x - widget.width / 4 + 50)
-        : 2 * x + 50;
+    gapFinal = ((widget.topCardHeight + x! - widget.width / 4 + 50) > 0)
+        ? (widget.topCardHeight + x! - widget.width / 4 + 50)
+        : 2 * x! + 50;
     gap = gapInitial;
   }
 
@@ -178,7 +178,7 @@ class _SlimyCardState extends State<SlimyCard> with TickerProviderStateMixin {
                       padding: EdgeInsets.all(10),
                       child: AnimatedOpacity(
                         duration: Duration(milliseconds: 100),
-                        opacity: (isSeperated) ? 1.0 : 0,
+                        opacity: (isSeperated!) ? 1.0 : 0,
                         child: bottomCardWidget,
                       ),
                     ),
@@ -199,7 +199,7 @@ class _SlimyCardState extends State<SlimyCard> with TickerProviderStateMixin {
                           width: widget.width,
                         ),
                         SizedBox(
-                          height: bottomDimension - (x),
+                          height: bottomDimension! - (x!),
                         ),
                       ],
                     ),
@@ -224,8 +224,8 @@ class _SlimyCardState extends State<SlimyCard> with TickerProviderStateMixin {
                 Column(
                   children: <Widget>[
                     SizedBox(
-                      height: ((widget.topCardHeight - y) > 0)
-                          ? (widget.topCardHeight - y)
+                      height: ((widget.topCardHeight - y!) > 0)
+                          ? (widget.topCardHeight - y!)
                           : 0,
                     ),
                     Container(
@@ -256,7 +256,7 @@ class _SlimyCardState extends State<SlimyCard> with TickerProviderStateMixin {
                   height: 50,
                   width: 50,
                   child: RotationTransition(
-                    turns: arrowAnimation,
+                    turns: arrowAnimation!,
                     child: Icon(Icons.keyboard_arrow_down, color: Colors.black),
                   ),
                   decoration: BoxDecoration(
